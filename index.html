@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Claude Usage Float</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", "Yu Gothic UI", sans-serif;
+        background: #f5f7fb;
+        color: #172033;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        padding: 24px 16px;
+        background:
+          radial-gradient(circle at top right, rgba(255, 198, 112, 0.2), transparent 24%),
+          linear-gradient(180deg, #fbfdff, #eef3f9);
+      }
+
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 32px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(23, 32, 51, 0.08);
+        box-shadow: 0 18px 50px rgba(23, 32, 51, 0.08);
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        margin-top: 28px;
+        font-size: 20px;
+      }
+
+      p,
+      li {
+        line-height: 1.7;
+      }
+
+      .muted {
+        color: #59657c;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: #172033;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .button.secondary {
+        background: #edf2f9;
+        color: #172033;
+      }
+
+      ul {
+        padding-left: 22px;
+      }
+
+      footer {
+        margin-top: 28px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(23, 32, 51, 0.08);
+        color: #59657c;
+      }
+
+      @media (max-width: 640px) {
+        main {
+          padding: 22px;
+          border-radius: 18px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Claude Usage Float</h1>
+      <p class="muted">Support and privacy page for the browser extension.</p>
+
+      <p>
+        Claude Usage Float is a compact browser extension for checking Claude usage and rate-limit
+        status from your existing Claude session.
+      </p>
+
+      <div class="actions">
+        <a class="button" href="./privacy-policy.html">Privacy Policy</a>
+        <a class="button secondary" href="mailto:hide10@gmail.com">Contact Support</a>
+      </div>
+
+      <h2>What It Does</h2>
+      <ul>
+        <li>Shows 5-hour and 7-day Claude usage windows.</li>
+        <li>Refreshes automatically on a configurable interval.</li>
+        <li>Keeps cached data locally in the browser.</li>
+      </ul>
+
+      <footer>
+        <p><strong>Support:</strong> <a href="mailto:hide10@gmail.com">hide10@gmail.com</a></p>
+      </footer>
+    </main>
+  </body>
+  </html>

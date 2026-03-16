@@ -54,4 +54,4 @@ This extension is open source. Any changes to data handling will be reflected in
 
 **Last Updated**: 2026-03-17
 
-For questions, visit: https://github.com/your-username/claude-usage-float-ext
+For questions, contact: hide10@gmail.com

@@ -73,10 +73,9 @@
 
 ## 🔶 Partially Complete / Minor Items
 
-- [ ] **Icons**: manifest.json references icons in public/icons/ (16/48/128 PNG)
-  - Status: Referenced but not created
-  - Impact: Extension loads without icons (can use placeholder icons)
-  - To fix: Create actual icon images (PNG format)
+- [ ] **Store Submission**: Dashboard upload is still manual
+  - Status: build output, manifest, privacy policy, and store copy are prepared locally
+  - Remaining: capture screenshots, upload to Chrome Web Store / Edge Add-ons, submit for review
 
 - [ ] **Error Recovery**: Network errors show generic message
   - Current: Shows error and "retrying" status
@@ -89,12 +88,12 @@
 ## 📋 Testing Checklist
 
 ### Manual Testing (Required)
-- [ ] Load extension in Chrome via chrome://extensions/
-- [ ] Verify service worker console shows "[lifecycle] onInstalled"
-- [ ] Click extension icon while logged into claude.ai
-- [ ] Verify usage bars display correctly
-- [ ] Click refresh button, verify immediate update
-- [ ] Open settings, change poll interval, verify alarm updates
+- [x] Load extension in Chrome via chrome://extensions/
+- [x] Verify the service worker starts without console errors
+- [x] Click extension icon while logged into claude.ai
+- [x] Verify usage bars display correctly
+- [x] Click refresh button, verify immediate update
+- [x] Open settings, change poll interval, verify alarm updates
 - [ ] Log out of claude.ai, verify "Not logged in" message shown
 - [ ] Clear storage and retry login flow
 
@@ -113,8 +112,8 @@ npm run build
 ```
 
 ### For Distribution
-- [ ] Create proper icons (16x16, 48x48, 128x128 PNG)
-- [ ] Add privacy policy
+- [x] Create proper icons (16x16, 48x48, 128x128 PNG)
+- [x] Add privacy policy
 - [ ] Submit to Chrome Web Store (requires developer account + fee)
 - [ ] Update version in manifest.json for releases
 
@@ -177,8 +176,7 @@ Styles: ~280 lines (ported)
 
 ## ✨ Next Steps
 
-1. **Immediate**: Create proper icon images and update manifest
-2. **Testing**: Manual load and test in Chrome/Edge
-3. **Refinement**: Gather feedback and fix any issues
-4. **Distribution**: Prepare for Chrome Web Store submission
-5. **Maintenance**: Monitor for API changes, user feedback
+1. **Immediate**: Capture store screenshots and submit to Chrome Web Store
+2. **Optional**: Submit the same package to Edge Add-ons
+3. **Refinement**: Handle any review feedback or edge-case issues
+4. **Maintenance**: Monitor for API changes and user feedback

@@ -3,44 +3,35 @@ import path from "path";
 
 const baseDir = import.meta.dirname;
 
-// Move dist/src/popup/index.html to dist/popup/index.html
-const srcHtml = path.join(baseDir, "dist/src/popup/index.html");
-const destHtml = path.join(baseDir, "dist/popup/index.html");
+copyIfExists(
+  path.join(baseDir, "dist/src/popup/index.html"),
+  path.join(baseDir, "dist/popup/index.html"),
+  "Copied HTML to dist/popup/index.html",
+);
+copyIfExists(
+  path.join(baseDir, "manifest.json"),
+  path.join(baseDir, "dist/manifest.json"),
+  "Copied manifest.json to dist/",
+);
 
-if (fs.existsSync(srcHtml)) {
-  fs.copyFileSync(srcHtml, destHtml);
-  console.log("✓ Copied HTML to dist/popup/index.html");
+removeIfExists(path.join(baseDir, "dist/src"), "Cleaned up dist/src");
+removeIfExists(path.join(baseDir, "dist/public"), "Removed stale dist/public");
+
+function copyIfExists(source, destination, message) {
+  if (!fs.existsSync(source)) {
+    return;
+  }
+
+  fs.mkdirSync(path.dirname(destination), { recursive: true });
+  fs.copyFileSync(source, destination);
+  console.log(message);
 }
 
-// Copy manifest.json to dist/
-const srcManifest = path.join(baseDir, "manifest.json");
-const destManifest = path.join(baseDir, "dist/manifest.json");
+function removeIfExists(target, message) {
+  if (!fs.existsSync(target)) {
+    return;
+  }
 
-if (fs.existsSync(srcManifest)) {
-  fs.copyFileSync(srcManifest, destManifest);
-  console.log("✓ Copied manifest.json to dist/");
-}
-
-// Copy icons to dist/
-const iconSrcDir = path.join(baseDir, "public/icons");
-const iconDestDir = path.join(baseDir, "dist/public/icons");
-
-if (fs.existsSync(iconSrcDir)) {
-  fs.mkdirSync(iconDestDir, { recursive: true });
-  const icons = fs.readdirSync(iconSrcDir);
-  icons.forEach(icon => {
-    fs.copyFileSync(
-      path.join(iconSrcDir, icon),
-      path.join(iconDestDir, icon)
-    );
-  });
-  console.log(`✓ Copied ${icons.length} icons to dist/public/icons/`);
-}
-
-// Clean up dist/src
-try {
-  fs.rmSync(path.join(baseDir, "dist/src"), { recursive: true });
-  console.log("✓ Cleaned up dist/src");
-} catch {
-  // Ignore
+  fs.rmSync(target, { recursive: true, force: true });
+  console.log(message);
 }

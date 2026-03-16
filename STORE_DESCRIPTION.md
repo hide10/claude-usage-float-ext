@@ -29,7 +29,7 @@ That's it! The extension reads your Claude session from your browser and display
 - ✅ Real-time data - updates every 30 seconds (customizable)
 - ✅ Visual progress bars - see 5-hour and 7-day windows
 - ✅ Usage guidance - get feedback on your usage pace
-- ✅ Floating window - compact S/M/L sizes
+- ✅ Floating window - compact popup for quick checks
 - ✅ Rate limit alerts - badge notification when limit is reached
 - ✅ Fully private - no data collection, all cached locally
 
@@ -40,11 +40,10 @@ This extension only reads data from claude.ai using your existing authentication
 - Track or analyze your usage
 - Store anything outside your browser
 
-See [Privacy Policy](PRIVACY.md) for details.
+See the public privacy policy URL listed in the store submission for details.
 
 **Feedback & Support**
-Report issues or suggest features on GitHub:
-https://github.com/your-username/claude-usage-float-ext
+Use the support email or support URL listed on the store page.
 
 ---
 
@@ -67,13 +66,13 @@ Productivity
 - `host_permissions`: Used to call claude.ai API endpoints
 
 ### Support Links
-- GitHub: https://github.com/your-username/claude-usage-float-ext
-- Privacy Policy: PRIVACY.md (included)
+- Privacy Policy URL: Host `PRIVACY.md` at a public HTTPS URL before submission
+- Support contact: Use your real support email or public support page
+- Website URL: Optional, but should be a public page you control
 
 ---
 
 ## Screenshots Needed (in order)
-1. Main usage display (L size window)
-2. Small window (S size)
-3. Settings panel
-4. Usage history (future feature concept)
+1. Main usage display
+2. Settings panel
+3. Optional: not-logged-in state

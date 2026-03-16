@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Claude Usage Float Privacy Policy</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", "Yu Gothic UI", sans-serif;
+        background: #f7f8fb;
+        color: #1b2230;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 32px 16px;
+        background:
+          radial-gradient(circle at top right, rgba(255, 185, 89, 0.18), transparent 28%),
+          linear-gradient(180deg, #fbfcff, #f1f4fa);
+      }
+
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 32px;
+        border: 1px solid rgba(27, 34, 48, 0.08);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 18px 50px rgba(28, 37, 54, 0.08);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin-top: 0;
+        color: #101725;
+      }
+
+      h1 {
+        font-size: 32px;
+        margin-bottom: 8px;
+      }
+
+      h2 {
+        font-size: 20px;
+        margin-top: 28px;
+        margin-bottom: 10px;
+      }
+
+      p,
+      li {
+        line-height: 1.7;
+      }
+
+      code {
+        padding: 2px 6px;
+        border-radius: 6px;
+        background: #eef2f8;
+        font-family: Consolas, "Courier New", monospace;
+      }
+
+      .muted {
+        color: #56617a;
+      }
+
+      ul,
+      ol {
+        padding-left: 22px;
+      }
+
+      footer {
+        margin-top: 28px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(27, 34, 48, 0.08);
+        color: #56617a;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 16px 10px;
+        }
+
+        main {
+          padding: 20px;
+          border-radius: 16px;
+        }
+
+        h1 {
+          font-size: 26px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="muted">Claude Usage Float Extension</p>
+
+      <h2>Data Collection</h2>
+      <p>This extension does not collect or transmit personal data to third-party services.</p>
+
+      <h2>How It Works</h2>
+      <ol>
+        <li>Reads your <code>sessionKey</code> cookie from Claude.ai in your browser.</li>
+        <li>Uses that session to call Claude's official organization and usage endpoints.</li>
+        <li>Caches your organization ID, usage data, and settings locally in browser storage.</li>
+      </ol>
+
+      <h2>Data Storage</h2>
+      <ul>
+        <li><strong>sessionKey</strong>: cached in <code>chrome.storage.session</code> for 5 minutes.</li>
+        <li><strong>Usage data</strong>: cached in <code>chrome.storage.local</code>.</li>
+        <li><strong>Settings</strong>: poll interval stored in <code>chrome.storage.local</code>.</li>
+      </ul>
+
+      <h2>Data Transmission</h2>
+      <ul>
+        <li>Requests are sent only to <code>https://claude.ai/api/organizations*</code>.</li>
+        <li>No analytics, telemetry, or third-party tracking is used.</li>
+        <li>No data is sold or shared with unrelated third parties.</li>
+      </ul>
+
+      <h2>Permissions Used</h2>
+      <ul>
+        <li><code>alarms</code>: schedule polling.</li>
+        <li><code>storage</code>: cache usage data and settings locally.</li>
+        <li><code>cookies</code>: read your Claude.ai session cookie.</li>
+        <li><code>host_permissions: https://claude.ai/*</code>: call Claude's web API endpoints.</li>
+      </ul>
+
+      <h2>What This Extension Cannot Access</h2>
+      <ul>
+        <li>Your password.</li>
+        <li>Your full conversation history.</li>
+        <li>Other websites or other extensions.</li>
+      </ul>
+
+      <h2>Data Retention</h2>
+      <p>All data stays in your browser and is cleared when you uninstall the extension, clear browser storage, or log out of Claude.ai.</p>
+
+      <h2>Changes to This Policy</h2>
+      <p>Changes to data handling will be reflected in this page and in the source code.</p>
+
+      <footer>
+        <p><strong>Last Updated:</strong> 2026-03-17</p>
+        <p><strong>Contact:</strong> <a href="mailto:hide10@gmail.com">hide10@gmail.com</a></p>
+      </footer>
+    </main>
+  </body>
+  </html>

@@ -38,21 +38,29 @@ export function PopupApp() {
     };
   }, []);
 
+  function handleRefresh() {
+    if (!portRef.current) {
+      return;
+    }
+    portRef.current.postMessage({ type: "FORCE_REFRESH" });
+  }
+
   if (view === "settings") {
     return <SettingsView state={state} draft={draft} setDraft={setDraft} onBack={() => setView("main")} />;
   }
 
-  return <MainView state={state} onSettings={() => setView("settings")} />;
+  return <MainView state={state} onRefresh={handleRefresh} onSettings={() => setView("settings")} />;
 }
 
-function MainView({ state, onSettings }: { state: UsageState; onSettings: () => void }) {
-  const handleRefresh = () => {
-    const port = chrome.runtime.connect({ name: "popup" });
-    port.postMessage({ type: "FORCE_REFRESH" });
-    port.disconnect();
-  };
-
-
+function MainView({
+  state,
+  onRefresh,
+  onSettings,
+}: {
+  state: UsageState;
+  onRefresh: () => void;
+  onSettings: () => void;
+}) {
   return (
     <div className="shell">
       <main className="panel compact-panel">
@@ -64,10 +72,10 @@ function MainView({ state, onSettings }: { state: UsageState; onSettings: () => 
             </p>
           </div>
           <div className="toolbar">
-            <button className="ghost mini" onClick={handleRefresh} title="Refresh now">
+            <button type="button" className="ghost mini" onClick={onRefresh} title="Refresh now">
               ↻
             </button>
-            <button className="ghost mini" onClick={onSettings} title="Settings">
+            <button type="button" className="ghost mini" onClick={onSettings} title="Settings">
               ⚙
             </button>
           </div>

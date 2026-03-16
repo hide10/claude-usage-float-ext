@@ -9,7 +9,7 @@ Real-time Claude API usage monitoring directly in your browser. No configuration
 - ⚡ **Smart Refresh**: Automatic polling (configurable 10-300 sec) + manual refresh button
 - 🎯 **Usage Guidance**: Get feedback on your usage pace ("Use more", "On pace", "Slow down")
 - 🔔 **Badge Alerts**: Extension icon badge shows "!" when rate limit is reached
-- 🎨 **Compact Design**: Lightweight floating window (S/M/L sizes) - doesn't clutter your screen
+- 🎨 **Compact Design**: Lightweight floating window that doesn't clutter your screen
 - 🛡️ **Privacy First**: No data collection, no third-party services, all cached locally
 
 ## Installation

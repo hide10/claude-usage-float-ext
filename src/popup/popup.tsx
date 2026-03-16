@@ -23,6 +23,7 @@ const fixWindowSize = () => {
 };
 
 fixWindowSize();
+window.addEventListener("resize", fixWindowSize);
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(<PopupApp />);

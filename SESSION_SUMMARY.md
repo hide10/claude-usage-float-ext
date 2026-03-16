@@ -36,7 +36,7 @@
 ### 5. 機能検証
 - [x] Auto-auth (sessionKey + organizationId 自動抽出)
 - [x] 使用量表示 (5時間/7日ウィンドウ)
-- [x] ウィンドウサイズ (S/M/L レスポンシブ)
+- [x] 固定サイズポップアップ表示
 - [x] ポーリング (デフォルト30秒、設定可能)
 - [x] エラーハンドリング (未ログイン、ネットワークエラー)
 
@@ -46,13 +46,13 @@
 
 ```
 dist/
-├── manifest.json           ✓ 530 B
+├── manifest.json           ✓ 527 B
 ├── background/
-│   └── serviceWorker.js   ✓ 9.55 kB (gzip: 3.06 kB)
+│   └── serviceWorker.js   ✓ 8.79 kB (gzip: 2.91 kB)
 ├── popup/
 │   ├── index.html         ✓ 0.49 kB
 │   ├── index.css          ✓ 3.50 kB
-│   └── index.js           ✓ 197.93 kB (gzip: 62.32 kB)
+│   └── index.js           ✓ 197.97 kB (gzip: 62.31 kB)
 └── icons/
     ├── icon16.png         ✓
     ├── icon48.png         ✓
@@ -80,7 +80,7 @@ dist/
 
 3. **メタデータ設定**
    - icon128.png をアップロード
-   - スクリーンショット (1280x800 推奨) - L/M/S サイズ
+   - スクリーンショット (1280x800 推奨) - メイン画面 / 設定画面
    - Privacy Policy: PRIVACY.md の内容
    - Permission Justification: STORE_DESCRIPTION.md の記載内容
 
@@ -110,20 +110,19 @@ dist/
 Chrome で `chrome://extensions` から拡張機能をロード後:
 
 ```bash
-# L サイズ (340x260)
+# メイン画面
 # - 「拡張機能」アイコンをクリック
-# - ウィンドウ表示 (L) → スクリーンショット撮影
+# - 使用量バーが見えている状態で撮影
 
-# M サイズ (280x260)
-# - ボタンで M に変更 → スクリーンショット
-
-# S サイズ (240x260)
-# - ボタンで S に変更 → スクリーンショット
+# 設定画面
+# - 設定アイコンをクリック
+# - ポーリング設定が見えている状態で撮影
 ```
 
-推奨: 各サイズで以下を撮影
+推奨:
 - 使用量バー表示
 - 設定パネル
+- 未ログイン画面（必要なら追加）
 
 ---
 
@@ -140,11 +139,11 @@ chrome://extensions/
 # テスト項目:
 # ✓ 拡張機能アイコン表示
 # ✓ ポップアップ開く
+# ✓ サービスワーカーエラーなし
 # ✓ 使用量データ表示
-# ✓ S/M/L リサイズ動作
+# ✓ 固定サイズポップアップ表示
 # ✓ 設定画面 → ポーリング間隔変更
 # ✓ 手動リフレッシュボタン
-# ✓ ウィンドウ再利用 (重複作成なし)
 ```
 
 ---
@@ -154,10 +153,10 @@ chrome://extensions/
 - [ ] PRIVACY.md の内容を確認
 - [ ] STORE_DESCRIPTION.md の説明文を確認
 - [ ] icon128.png が高品質か確認
-- [ ] スクリーンショット 3 枚 (L/M/S) 撮影完了
+- [ ] スクリーンショット 2-3 枚 撮影完了
 - [ ] Permission Justification を確認
-- [ ] manifest.json が有効な JSON か確認
-- [ ] dist/ フォルダで `npm run build` 実行後も同じ構成か確認
+- [x] manifest.json が有効な JSON か確認
+- [x] dist/ フォルダで `npm run build` 実行後も同じ構成か確認
 
 ---
 
@@ -183,9 +182,9 @@ chrome://extensions/
 
 - [Chrome Web Store Publishing Guide](https://developer.chrome.com/docs/webstore/publish/)
 - [Edge Add-ons Publishing Guide](https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/publish/publish-extension)
-- GitHub: https://github.com/your-username/claude-usage-float-ext
+- Support URL: add your public project or support page before submission
 
 ---
 
-**最終ビルド**: 2026-03-17 06:00 JST
+**最終ビルド**: 2026-03-17 06:24 JST
 **git commit**: Release: v1.0.0 - Ready for store submission

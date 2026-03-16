@@ -6,6 +6,7 @@ import { fetchUsageSnapshot } from "./usageFetcher";
 const STATE_KEY = "state";
 const SETTINGS_KEY = "settings";
 const POLL_ALARM_NAME = "poll";
+const DEFAULT_WINDOW_SIZE = { width: 340, height: 260 };
 
 let currentState: UsageState = {
   status: "loading",
@@ -39,13 +40,32 @@ async function saveState() {
 // Create float window
 async function createFloatWindow(url: string, size: { width: number; height: number }) {
   const win = await chrome.windows.create({
-    url: url,
+    url,
     type: "popup",
     width: size.width,
     height: size.height,
     focused: true,
   });
   floatWindowId = win.id ?? null;
+}
+
+async function openOrFocusFloatWindow(size: { width: number; height: number }) {
+  const popupUrl = chrome.runtime.getURL("popup/index.html");
+
+  if (floatWindowId !== null) {
+    try {
+      await chrome.windows.update(floatWindowId, {
+        width: size.width,
+        height: size.height,
+        focused: true,
+      });
+      return;
+    } catch {
+      floatWindowId = null;
+    }
+  }
+
+  await createFloatWindow(popupUrl, size);
 }
 
 // Notify popup of state change via port connection
@@ -114,7 +134,7 @@ async function setupAlarm() {
 }
 
 // Extension installed or started
-chrome.runtime.onInstalled.addListener(async (details) => {
+chrome.runtime.onInstalled.addListener(async () => {
   await loadState();
   await setupAlarm();
   await runPoll();
@@ -142,21 +162,7 @@ chrome.windows.onRemoved.addListener((windowId) => {
 
 // Action click handler - open or focus float window
 chrome.action.onClicked.addListener(async () => {
-  const popupUrl = chrome.runtime.getURL("popup/index.html");
-  const windowSize = { width: 340, height: 260 };
-
-  // If window already exists, focus it
-  if (floatWindowId !== null) {
-    try {
-      await chrome.windows.update(floatWindowId, { focused: true });
-      return;
-    } catch (err) {
-      floatWindowId = null;
-    }
-  }
-
-  // Create new window
-  await createFloatWindow(popupUrl, windowSize);
+  await openOrFocusFloatWindow(DEFAULT_WINDOW_SIZE);
 });
 
 // Port connection handler (for popup persistent connection)
@@ -166,16 +172,19 @@ chrome.runtime.onConnect.addListener((port) => {
 
     port.onMessage.addListener((message: PopupMessage | unknown) => {
       const msg = message as PopupMessage;
-      if (msg.type === "GET_STATE") {
-        port.postMessage({ type: "STATE_UPDATE", payload: currentState });
-      }
-      if (msg.type === "FORCE_REFRESH") {
-        runPoll().catch(() => {});
-      }
-      if (msg.type === "SAVE_SETTINGS") {
-        currentState.settings.pollIntervalSec = msg.payload.pollIntervalSec;
-        saveState().catch(() => {});
-        setupAlarm().catch(() => {});
+
+      switch (msg.type) {
+        case "GET_STATE":
+          port.postMessage({ type: "STATE_UPDATE", payload: currentState });
+          break;
+        case "FORCE_REFRESH":
+          runPoll().catch(() => {});
+          break;
+        case "SAVE_SETTINGS":
+          currentState.settings.pollIntervalSec = msg.payload.pollIntervalSec;
+          saveState().catch(() => {});
+          setupAlarm().catch(() => {});
+          break;
       }
     });
 
@@ -183,62 +192,4 @@ chrome.runtime.onConnect.addListener((port) => {
       popupPort = null;
     });
   }
-});
-
-// Message handler
-chrome.runtime.onMessage.addListener((message: unknown, _sender, sendResponse) => {
-  const msg = message as PopupMessage & { type: string; payload?: unknown };
-
-  if (msg.type === "GET_STATE") {
-    sendResponse({ state: currentState });
-    return;
-  }
-
-  if (msg.type === "FORCE_REFRESH") {
-    runPoll().catch(console.error);
-    sendResponse({ ok: true });
-    return;
-  }
-
-  if (msg.type === "SAVE_SETTINGS") {
-    currentState.settings.pollIntervalSec = (msg.payload as { pollIntervalSec: number }).pollIntervalSec;
-    saveState().catch(console.error);
-    setupAlarm().catch(console.error);
-    sendResponse({ ok: true });
-    return;
-  }
-
-  if (msg.type === "ADJUST_HEIGHT") {
-    const payload = msg.payload as { height: number };
-    if (floatWindowId !== null) {
-      chrome.windows.update(floatWindowId, {
-        height: payload.height,
-      }).catch(console.error);
-    }
-    sendResponse({ ok: true });
-    return;
-  }
-
-  if (msg.type === "OPEN_WINDOW") {
-    const payload = msg.payload as { width: number; height: number };
-    const popupUrl = chrome.runtime.getURL("popup/index.html");
-
-    // If window already exists, resize it
-    if (floatWindowId !== null) {
-      chrome.windows.update(floatWindowId, {
-        width: payload.width,
-        height: payload.height,
-        focused: true,
-      }).catch(() => {
-        floatWindowId = null;
-        createFloatWindow(popupUrl, payload);
-      });
-    } else {
-      createFloatWindow(popupUrl, payload);
-    }
-    sendResponse({ ok: true });
-    return;
-  }
-
-  sendResponse({ error: "Unknown message type" });
 });
