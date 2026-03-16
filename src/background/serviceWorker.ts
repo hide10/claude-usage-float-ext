@@ -14,6 +14,8 @@ let currentState: UsageState = {
   snapshot: null,
 };
 
+let popupPort: chrome.runtime.Port | null = null;
+
 // Load initial state from storage
 async function loadState() {
   const stored = await chrome.storage.local.get([STATE_KEY, SETTINGS_KEY]);
@@ -33,20 +35,17 @@ async function saveState() {
   });
 }
 
-// Notify all popup instances of state change
-async function notifyPopups() {
-  // Get all tabs and send message to popup contexts
-  const tabs = await chrome.tabs.query({});
-  for (const tab of tabs) {
-    if (tab.id !== undefined) {
-      try {
-        await chrome.tabs.sendMessage(tab.id, {
-          type: "STATE_UPDATE",
-          payload: currentState,
-        });
-      } catch {
-        // Tab may not have receiver, ignore
-      }
+// Notify popup of state change via port connection
+function notifyPopups() {
+  if (popupPort) {
+    try {
+      popupPort.postMessage({
+        type: "STATE_UPDATE",
+        payload: currentState,
+      });
+    } catch (error) {
+      console.error("[notify] Failed to send message to popup:", error);
+      popupPort = null;
     }
   }
 }
@@ -126,6 +125,34 @@ chrome.runtime.onStartup.addListener(async () => {
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === POLL_ALARM_NAME) {
     await runPoll();
+  }
+});
+
+// Port connection handler (for popup persistent connection)
+chrome.runtime.onConnect.addListener((port) => {
+  if (port.name === "popup") {
+    console.log("[port] Popup connected");
+    popupPort = port;
+
+    port.onMessage.addListener((message: PopupMessage | unknown) => {
+      const msg = message as PopupMessage;
+      if (msg.type === "GET_STATE") {
+        port.postMessage({ type: "STATE_UPDATE", payload: currentState });
+      }
+      if (msg.type === "FORCE_REFRESH") {
+        runPoll().catch(console.error);
+      }
+      if (msg.type === "SAVE_SETTINGS") {
+        currentState.settings.pollIntervalSec = msg.payload.pollIntervalSec;
+        saveState().catch(console.error);
+        setupAlarm().catch(console.error);
+      }
+    });
+
+    port.onDisconnect.addListener(() => {
+      console.log("[port] Popup disconnected");
+      popupPort = null;
+    });
   }
 });
 

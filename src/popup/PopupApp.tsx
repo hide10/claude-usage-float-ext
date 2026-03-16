@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { ClaudeUsageSettings, UsageWindow, defaultSettings, UsageState } from "@shared/types";
 import { StateUpdateMessage } from "@shared/messages";
 
@@ -11,15 +11,15 @@ export function PopupApp() {
   });
   const [draft, setDraft] = useState<ClaudeUsageSettings>(defaultSettings);
   const [view, setView] = useState<"main" | "settings">("main");
+  const portRef = React.useRef<chrome.runtime.Port | null>(null);
 
   useEffect(() => {
-    // Get initial state from background
-    chrome.runtime.sendMessage({ type: "GET_STATE" }, (response) => {
-      if (response?.state) {
-        setState(response.state);
-        setDraft(response.state.settings);
-      }
-    });
+    // Connect to service worker via port
+    const port = chrome.runtime.connect({ name: "popup" });
+    portRef.current = port;
+
+    // Request initial state
+    port.postMessage({ type: "GET_STATE" });
 
     // Listen for state updates from background
     const listener = (message: StateUpdateMessage | unknown) => {
@@ -30,8 +30,12 @@ export function PopupApp() {
       }
     };
 
-    chrome.runtime.onMessage.addListener(listener);
-    return () => chrome.runtime.onMessage.removeListener(listener);
+    port.onMessage.addListener(listener);
+
+    return () => {
+      port.disconnect();
+      portRef.current = null;
+    };
   }, []);
 
   if (view === "settings") {
@@ -43,9 +47,9 @@ export function PopupApp() {
 
 function MainView({ state, onSettings }: { state: UsageState; onSettings: () => void }) {
   const handleRefresh = () => {
-    chrome.runtime.sendMessage({ type: "FORCE_REFRESH" }, () => {
-      console.log("Refresh triggered");
-    });
+    const port = chrome.runtime.connect({ name: "popup" });
+    port.postMessage({ type: "FORCE_REFRESH" });
+    port.disconnect();
   };
 
   return (
@@ -105,16 +109,13 @@ function SettingsView({
 }) {
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
-    chrome.runtime.sendMessage(
-      {
-        type: "SAVE_SETTINGS",
-        payload: { pollIntervalSec: draft.pollIntervalSec },
-      },
-      () => {
-        console.log("Settings saved");
-        onBack();
-      },
-    );
+    const port = chrome.runtime.connect({ name: "popup" });
+    port.postMessage({
+      type: "SAVE_SETTINGS",
+      payload: { pollIntervalSec: draft.pollIntervalSec },
+    });
+    port.disconnect();
+    onBack();
   }
 
   return (
