@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Claude Usage Float",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Browser extension for real-time Claude API usage monitoring",
   "permissions": ["alarms", "storage", "cookies"],
   "host_permissions": ["https://claude.ai/*"],

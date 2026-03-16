@@ -1,14 +1,16 @@
 # Claude Usage Float - Chrome/Edge Extension
 
-A browser extension for real-time Claude API usage monitoring on Chrome/Edge with auto-authentication.
+Real-time Claude API usage monitoring directly in your browser. No configuration needed - just install and log in.
 
-## Features
+## ✨ Features
 
-- **Auto-Auth**: Automatically extracts sessionKey and organizationId from browser cookies
-- **Real-time Monitoring**: Polls Claude API every 30 seconds (configurable)
-- **Usage Visualization**: Beautiful usage bars for 5-hour and 7-day windows
-- **Badge Alerts**: Extension badge shows "!" when rate limit is reached
-- **Minimal Setup**: No manual configuration needed - just log in to claude.ai
+- 🔐 **Auto-Authentication**: Seamlessly reads your Claude session (no manual credential entry)
+- 📊 **Real-time Usage Display**: 5-hour and 7-day rate limit windows with visual progress bars
+- ⚡ **Smart Refresh**: Automatic polling (configurable 10-300 sec) + manual refresh button
+- 🎯 **Usage Guidance**: Get feedback on your usage pace ("Use more", "On pace", "Slow down")
+- 🔔 **Badge Alerts**: Extension icon badge shows "!" when rate limit is reached
+- 🎨 **Compact Design**: Lightweight floating window (S/M/L sizes) - doesn't clutter your screen
+- 🛡️ **Privacy First**: No data collection, no third-party services, all cached locally
 
 ## Installation
 

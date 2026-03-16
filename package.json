@@ -1,6 +1,6 @@
 {
   "name": "claude-usage-float-ext",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Browser extension for Claude API usage monitoring",
   "type": "module",
   "scripts": {
