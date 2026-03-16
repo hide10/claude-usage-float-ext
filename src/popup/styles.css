@@ -1,0 +1,285 @@
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", "Yu Gothic UI", sans-serif;
+  background: #0e1320;
+  color: #f5f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0e1320;
+  overflow: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+#root {
+  height: 100vh;
+}
+
+.shell {
+  height: 100vh;
+  padding: 6px;
+  overflow: hidden;
+}
+
+.panel {
+  height: 100%;
+  padding: 10px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at top right, rgba(92, 156, 255, 0.14), transparent 28%),
+    linear-gradient(180deg, rgba(15, 20, 33, 0.99), rgba(10, 13, 22, 0.99));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.32);
+}
+
+.compact-panel {
+  padding: 7px;
+}
+
+.settings-panel {
+  padding: 12px;
+}
+
+.topline,
+.settings-actions,
+.usage-line,
+.card-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stack {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.compact-stack {
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #8792aa;
+}
+
+.timestamp {
+  margin: 2px 0 0;
+  font-size: 10px;
+  color: #b6bfd3;
+}
+
+.usage-card,
+.settings {
+  border-radius: 14px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.compact-card {
+  padding: 7px 8px;
+}
+
+.card-label {
+  margin: 0 0 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9aa6bf;
+}
+
+.usage-value {
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+  color: #fff2e3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.bar-card {
+  position: relative;
+}
+
+.bar-track {
+  position: relative;
+  height: 34px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bar-time,
+.bar-usage {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  z-index: 1;
+}
+
+.bar-time {
+  background: linear-gradient(90deg, rgba(124, 140, 170, 0.62), rgba(124, 140, 170, 0.28));
+}
+
+.bar-usage {
+  background: linear-gradient(90deg, rgba(255, 195, 106, 0.95), rgba(255, 138, 61, 0.95));
+}
+
+.bar-marker-notch {
+  position: absolute;
+  top: 2px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 0;
+  border-bottom: 8px solid #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(10, 14, 24, 0.8));
+  z-index: 5;
+}
+
+.bar-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 9px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.advice-line {
+  margin: 4px 0 0;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.time-meta {
+  margin: 4px 0 0;
+  font-size: 10px;
+  color: #e6f4ff;
+  font-weight: 700;
+}
+
+.advice-line.good {
+  color: #c9ffdb;
+}
+
+.advice-line.warn {
+  color: #ffd2c2;
+}
+
+.advice-line.neutral {
+  color: #d8dfed;
+}
+
+.advice.good {
+  color: #c9ffdb;
+  background: rgba(41, 178, 93, 0.16);
+}
+
+.advice.warn {
+  color: #ffd2c2;
+  background: rgba(224, 96, 62, 0.18);
+}
+
+.advice.neutral {
+  color: #d8dfed;
+  background: rgba(139, 150, 172, 0.18);
+}
+
+.card-meta {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #8f9bb5;
+}
+
+.settings {
+  margin-top: 8px;
+}
+
+.no-margin {
+  margin-top: 0;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+  color: #dfe5f3;
+}
+
+input {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 9px 10px;
+  background: rgba(6, 9, 17, 0.72);
+  color: #f6f7fb;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 7px;
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 1.1;
+}
+
+.mini {
+  padding: 3px 6px;
+  font-size: 9px;
+}
+
+.mini.active {
+  background: rgba(255, 195, 106, 0.18);
+  color: #fff2d6;
+}
+
+.primary {
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  color: #131722;
+  font-weight: 700;
+}
+
+.ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: #edf1fa;
+}
