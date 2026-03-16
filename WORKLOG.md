@@ -57,3 +57,22 @@ Reason:
 - Commit the icon refresh plus the new logging rule.
 - Push to GitHub.
 - Reload the extension in Chrome and confirm the larger icon looks correct in the toolbar.
+
+## 2026-03-17 07:38 JST
+
+### Current Status
+- Icon assets were regenerated again after design feedback.
+- Background color was changed from purple to an orange gradient closer to Claude branding.
+- `dist/` and `release/claude-usage-float-ext-v1.0.0.zip` were rebuilt after the icon update.
+
+### Current Uncommitted Changes
+- `public/icons/icon16.png`
+- `public/icons/icon48.png`
+- `public/icons/icon128.png`
+
+Reason:
+- The user requested an orange Claude-like background instead of the previous purple background.
+
+### Next Recommended Step
+- Commit and push the orange icon update.
+- Reload the extension in Chrome and confirm the toolbar icon reads clearly at 16px.
