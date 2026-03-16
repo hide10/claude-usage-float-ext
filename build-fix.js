@@ -21,6 +21,22 @@ if (fs.existsSync(srcManifest)) {
   console.log("✓ Copied manifest.json to dist/");
 }
 
+// Copy icons to dist/
+const iconSrcDir = path.join(baseDir, "public/icons");
+const iconDestDir = path.join(baseDir, "dist/public/icons");
+
+if (fs.existsSync(iconSrcDir)) {
+  fs.mkdirSync(iconDestDir, { recursive: true });
+  const icons = fs.readdirSync(iconSrcDir);
+  icons.forEach(icon => {
+    fs.copyFileSync(
+      path.join(iconSrcDir, icon),
+      path.join(iconDestDir, icon)
+    );
+  });
+  console.log(`✓ Copied ${icons.length} icons to dist/public/icons/`);
+}
+
 // Clean up dist/src
 try {
   fs.rmSync(path.join(baseDir, "dist/src"), { recursive: true });
