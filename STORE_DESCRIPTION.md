@@ -66,9 +66,9 @@ Productivity
 - `host_permissions`: Used to call claude.ai API endpoints
 
 ### Support Links
-- Privacy Policy URL: Host `PRIVACY.md` at a public HTTPS URL before submission
-- Support contact: Use your real support email or public support page
-- Website URL: Optional, but should be a public page you control
+- Privacy Policy URL: https://hide10.github.io/claude-usage-float-ext/privacy-policy.html
+- Support contact: hide10@gmail.com
+- Website URL: https://hide10.github.io/claude-usage-float-ext/
 
 ---
 

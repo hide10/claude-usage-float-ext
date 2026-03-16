@@ -25,7 +25,7 @@
 **準備物:**
 - dist フォルダ（すべてのファイル）
 - STORE_DESCRIPTION.md の内容
-- 公開済み Privacy Policy URL
+- Privacy Policy URL: `https://hide10.github.io/claude-usage-float-ext/privacy-policy.html`
 
 **手順:**
 1. Dashboard で「新しいアイテム」をクリック
@@ -41,8 +41,8 @@
    - Screenshot (1 or more) - ウィンドウのスクリーンショット
 
 5. 追加情報:
-   - **Support email**: 実在する連絡先を入力
-   - **Privacy policy**: 公開済み HTTPS URL を入力
+   - **Support email**: `hide10@gmail.com`
+   - **Privacy policy**: `https://hide10.github.io/claude-usage-float-ext/privacy-policy.html`
    - **Permissions justification**: 下記参照
 
 ### 3. Permissions Justification
@@ -85,7 +85,7 @@
    - Screenshots (1 or more)
 
 5. **プライバシー情報**:
-   - Privacy policy URL: 公開済み HTTPS URL
+   - Privacy policy URL: `https://hide10.github.io/claude-usage-float-ext/privacy-policy.html`
    - Permissions 説明: Chrome Web Store と同じ
 
 ### 3. 提出 & 審査

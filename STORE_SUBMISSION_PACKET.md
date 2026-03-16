@@ -44,12 +44,8 @@ Use these as the basis for the Privacy practices tab. Verify each answer against
 
 ### Required Fields You Must Fill
 - Support email: `hide10@gmail.com`
-- Public HTTPS privacy policy URL
-
-### Likely GitHub Pages URL
-If your GitHub username is `YOUR_GITHUB_USERNAME` and the repo name is `claude-usage-float-ext`, the privacy policy URL will be:
-
-`https://YOUR_GITHUB_USERNAME.github.io/claude-usage-float-ext/privacy-policy.html`
+- Public HTTPS privacy policy URL: `https://hide10.github.io/claude-usage-float-ext/privacy-policy.html`
+- Optional support page URL: `https://hide10.github.io/claude-usage-float-ext/`
 
 ## Microsoft Edge Add-ons
 
@@ -64,8 +60,8 @@ Use the short or full description from `STORE_DESCRIPTION.md` as needed by the f
 
 ### Properties Notes
 - Support contact details: email or support URL
-- Website URL: optional, but should be a public page you control
-- Privacy policy URL: public HTTPS URL
+- Website URL: `https://hide10.github.io/claude-usage-float-ext/`
+- Privacy policy URL: `https://hide10.github.io/claude-usage-float-ext/privacy-policy.html`
 
 ## Screenshot Set
 
@@ -76,9 +72,8 @@ Required minimum:
 Optional:
 - Not logged in state
 
-## Blocking Items
+## Final Values
 
-These cannot be finalized locally without your real account details:
-
-- Publicly hosted privacy policy URL
-- Optional website/support page URL
+- Support email: `hide10@gmail.com`
+- Support page: `https://hide10.github.io/claude-usage-float-ext/`
+- Privacy policy URL: `https://hide10.github.io/claude-usage-float-ext/privacy-policy.html`
