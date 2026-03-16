@@ -13,6 +13,10 @@
 `Claude Usage Float`
 
 ### Short Description
+Preferred Japanese:
+`Claude使用量をリアルタイムで確認`
+
+English fallback:
 `Real-time Claude API usage monitoring`
 
 ### Single Purpose
@@ -22,7 +26,9 @@
 `Productivity`
 
 ### Detailed Description
-Use the text in `STORE_DESCRIPTION.md`.
+Use the Japanese full description in `STORE_DESCRIPTION.md`.
+
+If the dashboard requires English fallback text, the English section in `STORE_DESCRIPTION.md` can be used.
 
 ### Permission Justification
 - `alarms`: Used to schedule periodic polling of Claude usage data.
