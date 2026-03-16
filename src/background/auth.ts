@@ -9,7 +9,7 @@ interface CachedAuth {
 
 export interface ResolvedAuth {
   sessionKey: string;
-  organizationId: string;
+  organizationId: string; // UUID format
 }
 
 /**
@@ -58,10 +58,18 @@ export async function resolveAuth(): Promise<ResolvedAuth> {
     throw new Error(`Failed to fetch organizations: ${response.status} ${body}`);
   }
 
-  const data = (await response.json()) as { results: Array<{ id: string; capabilities?: Record<string, unknown> }> };
-  const orgs = data.results ?? [];
+  const data = await response.json();
+
+  // Handle both formats: { results: [...] } and [...]
+  let orgs: Array<{ id: string; uuid: string; capabilities?: Record<string, unknown>; api_disabled_reason?: string | null }> = [];
+  if (Array.isArray(data)) {
+    orgs = data;
+  } else if (data && typeof data === "object" && "results" in data) {
+    orgs = (data as { results: Array<{ id: string; uuid: string; capabilities?: Record<string, unknown>; api_disabled_reason?: string | null }> }).results ?? [];
+  }
 
   if (orgs.length === 0) {
+    console.error("[auth] No organizations in response");
     throw new Error("No organizations found. Please check your Claude account.");
   }
 
@@ -80,21 +88,42 @@ export async function resolveAuth(): Promise<ResolvedAuth> {
   return { sessionKey, organizationId: orgId };
 }
 
-function pickOrganization(orgs: Array<{ id: string; capabilities?: Record<string, unknown> }>): string {
-  // Prefer claude_pro
+function pickOrganization(orgs: Array<{ id: string; uuid: string; capabilities?: Record<string, unknown>; api_disabled_reason?: string | null }>): string {
+  // First: Prefer organizations with API enabled (api_disabled_reason is null)
+  const enabledOrgs = orgs.filter(org => !org.api_disabled_reason);
+
+  if (enabledOrgs.length > 0) {
+    // Among enabled orgs, prefer claude_pro
+    for (const org of enabledOrgs) {
+      if (org.capabilities?.["claude_pro"]) {
+        return org.uuid;
+      }
+    }
+
+    // Then prefer chat
+    for (const org of enabledOrgs) {
+      if (org.capabilities?.["chat"]) {
+        return org.uuid;
+      }
+    }
+
+    // Fall back to first enabled org
+    return enabledOrgs[0].uuid;
+  }
+
+  // If no enabled orgs, still prefer claude_pro/chat
   for (const org of orgs) {
     if (org.capabilities?.["claude_pro"]) {
-      return org.id;
+      return org.uuid;
     }
   }
 
-  // Then prefer chat
   for (const org of orgs) {
     if (org.capabilities?.["chat"]) {
-      return org.id;
+      return org.uuid;
     }
   }
 
-  // Fall back to first
-  return orgs[0].id;
+  // Last resort: first org
+  return orgs[0].uuid;
 }

@@ -52,6 +52,7 @@ function MainView({ state, onSettings }: { state: UsageState; onSettings: () => 
     port.disconnect();
   };
 
+
   return (
     <div className="shell">
       <main className="panel compact-panel">

@@ -6,7 +6,9 @@ const API_BASE = "https://claude.ai/api/organizations";
 type JsonRecord = Record<string, unknown>;
 
 export async function fetchUsageSnapshot(auth: ResolvedAuth): Promise<UsageSnapshot> {
-  const response = await fetch(`${API_BASE}/${auth.organizationId}/usage`, {
+  const url = `${API_BASE}/${auth.organizationId}/usage`;
+
+  const response = await fetch(url, {
     headers: {
       accept: "application/json",
       cookie: `sessionKey=${auth.sessionKey}`,

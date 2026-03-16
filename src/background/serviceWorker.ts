@@ -15,6 +15,7 @@ let currentState: UsageState = {
 };
 
 let popupPort: chrome.runtime.Port | null = null;
+let floatWindowId: number | null = null;
 
 // Load initial state from storage
 async function loadState() {
@@ -35,6 +36,18 @@ async function saveState() {
   });
 }
 
+// Create float window
+async function createFloatWindow(url: string, size: { width: number; height: number }) {
+  const win = await chrome.windows.create({
+    url: url,
+    type: "popup",
+    width: size.width,
+    height: size.height,
+    focused: true,
+  });
+  floatWindowId = win.id ?? null;
+}
+
 // Notify popup of state change via port connection
 function notifyPopups() {
   if (popupPort) {
@@ -52,8 +65,6 @@ function notifyPopups() {
 
 // Main polling logic
 async function runPoll() {
-  console.log("[poll] Starting poll cycle");
-
   try {
     const auth = await resolveAuth();
     const snapshot = await fetchUsageSnapshot(auth);
@@ -72,11 +83,8 @@ async function runPoll() {
     } else {
       chrome.action.setBadgeText({ text: "" });
     }
-
-    console.log("[poll] Success, state updated");
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error("[poll] Error:", message);
 
     if (message.includes("Not logged in")) {
       currentState = {
@@ -102,20 +110,17 @@ async function runPoll() {
 // Setup or update alarm based on settings
 async function setupAlarm() {
   const intervalMin = Math.max(0.5, currentState.settings.pollIntervalSec / 60);
-  console.log(`[alarm] Setting up poll alarm every ${intervalMin} minutes`);
   await chrome.alarms.create(POLL_ALARM_NAME, { periodInMinutes: intervalMin });
 }
 
 // Extension installed or started
 chrome.runtime.onInstalled.addListener(async (details) => {
-  console.log(`[lifecycle] onInstalled: ${details.reason}`);
   await loadState();
   await setupAlarm();
   await runPoll();
 });
 
 chrome.runtime.onStartup.addListener(async () => {
-  console.log("[lifecycle] onStartup");
   await loadState();
   await setupAlarm();
   await runPoll();
@@ -128,10 +133,35 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }
 });
 
+// Track window close
+chrome.windows.onRemoved.addListener((windowId) => {
+  if (windowId === floatWindowId) {
+    floatWindowId = null;
+  }
+});
+
+// Action click handler - open or focus float window
+chrome.action.onClicked.addListener(async () => {
+  const popupUrl = chrome.runtime.getURL("popup/index.html");
+  const windowSize = { width: 340, height: 260 };
+
+  // If window already exists, focus it
+  if (floatWindowId !== null) {
+    try {
+      await chrome.windows.update(floatWindowId, { focused: true });
+      return;
+    } catch (err) {
+      floatWindowId = null;
+    }
+  }
+
+  // Create new window
+  await createFloatWindow(popupUrl, windowSize);
+});
+
 // Port connection handler (for popup persistent connection)
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name === "popup") {
-    console.log("[port] Popup connected");
     popupPort = port;
 
     port.onMessage.addListener((message: PopupMessage | unknown) => {
@@ -140,25 +170,24 @@ chrome.runtime.onConnect.addListener((port) => {
         port.postMessage({ type: "STATE_UPDATE", payload: currentState });
       }
       if (msg.type === "FORCE_REFRESH") {
-        runPoll().catch(console.error);
+        runPoll().catch(() => {});
       }
       if (msg.type === "SAVE_SETTINGS") {
         currentState.settings.pollIntervalSec = msg.payload.pollIntervalSec;
-        saveState().catch(console.error);
-        setupAlarm().catch(console.error);
+        saveState().catch(() => {});
+        setupAlarm().catch(() => {});
       }
     });
 
     port.onDisconnect.addListener(() => {
-      console.log("[port] Popup disconnected");
       popupPort = null;
     });
   }
 });
 
 // Message handler
-chrome.runtime.onMessage.addListener((message: PopupMessage | unknown, _sender, sendResponse) => {
-  const msg = message as PopupMessage;
+chrome.runtime.onMessage.addListener((message: unknown, _sender, sendResponse) => {
+  const msg = message as PopupMessage & { type: string; payload?: unknown };
 
   if (msg.type === "GET_STATE") {
     sendResponse({ state: currentState });
@@ -172,9 +201,41 @@ chrome.runtime.onMessage.addListener((message: PopupMessage | unknown, _sender, 
   }
 
   if (msg.type === "SAVE_SETTINGS") {
-    currentState.settings.pollIntervalSec = msg.payload.pollIntervalSec;
+    currentState.settings.pollIntervalSec = (msg.payload as { pollIntervalSec: number }).pollIntervalSec;
     saveState().catch(console.error);
     setupAlarm().catch(console.error);
+    sendResponse({ ok: true });
+    return;
+  }
+
+  if (msg.type === "ADJUST_HEIGHT") {
+    const payload = msg.payload as { height: number };
+    if (floatWindowId !== null) {
+      chrome.windows.update(floatWindowId, {
+        height: payload.height,
+      }).catch(console.error);
+    }
+    sendResponse({ ok: true });
+    return;
+  }
+
+  if (msg.type === "OPEN_WINDOW") {
+    const payload = msg.payload as { width: number; height: number };
+    const popupUrl = chrome.runtime.getURL("popup/index.html");
+
+    // If window already exists, resize it
+    if (floatWindowId !== null) {
+      chrome.windows.update(floatWindowId, {
+        width: payload.width,
+        height: payload.height,
+        focused: true,
+      }).catch(() => {
+        floatWindowId = null;
+        createFloatWindow(popupUrl, payload);
+      });
+    } else {
+      createFloatWindow(popupUrl, payload);
+    }
     sendResponse({ ok: true });
     return;
   }

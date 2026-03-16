@@ -21,13 +21,15 @@ input {
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 
 .shell {
-  height: 100vh;
   padding: 6px;
-  overflow: hidden;
+  overflow: auto;
+  flex: 1;
 }
 
 .panel {
@@ -282,4 +284,42 @@ button {
 .ghost {
   background: rgba(255, 255, 255, 0.08);
   color: #edf1fa;
+}
+
+/* Responsive sizing for small windows */
+@media (max-width: 300px) {
+  body {
+    font-size: 11px;
+  }
+  .eyebrow {
+    font-size: 7px;
+  }
+  .timestamp {
+    font-size: 9px;
+  }
+  .card-label {
+    font-size: 8px;
+  }
+  .usage-value {
+    font-size: 15px;
+  }
+  .bar-track {
+    height: 28px;
+  }
+  .advice-line,
+  .time-meta {
+    font-size: 8px;
+  }
+  .shell {
+    padding: 4px;
+  }
+  .panel {
+    padding: 6px;
+  }
+  .usage-card {
+    padding: 6px;
+  }
+  .compact-card {
+    padding: 5px 6px;
+  }
 }
