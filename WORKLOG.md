@@ -127,3 +127,14 @@ Reason:
 - Continue from account / listing setup.
 - Upload `release/claude-usage-float-ext-v1.0.0.zip`.
 - Fill listing and privacy fields using `STORE_SUBMISSION_PACKET.md`.
+
+## 2026-03-17 13:52 JST
+
+### Current Status
+- Chrome Web Store submission work has resumed.
+- The developer dashboard is open again.
+- Current guidance focus is navigating from the dashboard to item upload and listing/privacy setup.
+
+### Resume Point
+- If account setup prompts still appear, finish those first.
+- Otherwise go to `Add new item`, upload `release/claude-usage-float-ext-v1.0.0.zip`, then complete listing and privacy fields from `STORE_SUBMISSION_PACKET.md`.
